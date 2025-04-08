@@ -1,12 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchCurrentMatches } from "../util/fetch";
 import loader from "../../public/loader.svg";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Slider from "react-slick";
 
 export default function Header() {
   const { data, isPending, isError, error } = useQuery({
     queryKey: ["currentMatches"],
     queryFn: fetchCurrentMatches,
   });
+
+  const settings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 2,
+  };
 
   console.log(data);
 
@@ -21,16 +32,19 @@ export default function Header() {
   if (data) {
     return (
       <header className="h-92 bg-[#1D1E1F]">
-        <div className="w-4/5 mx-auto h-3/4 flex justify-between items-end gap-3">
-          {data.map((mat, index) => {
-            return (
-              <div key={index}>
-                <div className="bg-[#2B2C2D] h-4/5 w-1/4 rounded-lg">
+        <div className="w-4/5 mx-auto h-3/4">
+          <Slider {...settings}>
+            {data.map((mat, index) => {
+              return (
+                <div
+                  className="bg-[#2B2C2D] h-60 mt-12 rounded-2xl ml-2"
+                  key={index}
+                >
                   <ul className="flex justify-around mt-2.5 w-3/4">
                     <li className="font-bold text-[#CBCCCE]">Result</li>
                     <li className="font-bold text-[#CBCCCE]">
                       <span className="mr-1">&bull;</span>
-                      19th Match
+                      {index}
                     </li>
                     <li className="font-bold text-[#CBCCCE]">
                       <span className="mr-1">&bull;</span>
@@ -46,12 +60,9 @@ export default function Header() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-[#2B2C2D] h-4/5 w-1/4 rounded-lg"></div>
-                <div className="bg-[#2B2C2D] h-4/5 w-1/4 rounded-lg"></div>
-                <div className="bg-[#2B2C2D] h-4/5 w-1/4 rounded-lg"></div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </Slider>
         </div>
       </header>
     );

@@ -16,7 +16,7 @@ export default function Header() {
     infinite: false,
     speed: 500,
     slidesToShow: 4,
-    slidesToScroll: 2,
+    slidesToScroll: 3,
   };
 
   console.log(data);
@@ -37,28 +37,47 @@ export default function Header() {
             {data.map((mat, index) => {
               return (
                 <div
-                  className="bg-[#2B2C2D] h-60 mt-12 rounded-2xl ml-2"
+                  className="bg-[#2B2C2D] h-60 mt-12 rounded-2xl px-4"
                   key={index}
                 >
                   <ul className="flex justify-around mt-2.5 w-3/4">
-                    <li className="font-bold text-[#CBCCCE]">Result</li>
-                    <li className="font-bold text-[#CBCCCE]">
-                      <span className="mr-1">&bull;</span>
-                      {index}
+                    <li
+                      className={`font-bold ${
+                        mat.matchEnded ? "text-[#CBCCCE]" : "text-red-500"
+                      }`}
+                    >
+                      {mat.matchEnded
+                        ? "Result"
+                        : mat.matchStarted
+                        ? "Live"
+                        : "Upcoming"}
                     </li>
                     <li className="font-bold text-[#CBCCCE]">
                       <span className="mr-1">&bull;</span>
-                      IPL
+                      {mat.name.split(",")[1]}
                     </li>
                     <li className="font-bold text-[#CBCCCE]">
                       <span className="mr-1">&bull;</span>
-                      {}
+                      {mat.matchType.toUpperCase()}
                     </li>
+
                     <li className="font-normal">
                       <span className="mr-1">&bull;</span>
-                      Hyderabad
+                      {mat.venue.split(",")[1]}
                     </li>
                   </ul>
+                  {mat.teams.map((team, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex justify-between mx-auto w-9/10 mt-6 text-xl"
+                      >
+                        <p>Team</p>
+                        <p>Score</p>
+                      </div>
+                    );
+                  })}
+                  <p className="w-14/15 mt-6 mx-auto text-xl">{mat.status}</p>
                 </div>
               );
             })}

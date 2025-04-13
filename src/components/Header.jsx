@@ -4,6 +4,7 @@ import loader from "../../public/loader.svg";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   const { data, isPending, isError, error } = useQuery({
@@ -36,9 +37,10 @@ export default function Header() {
           <Slider {...settings}>
             {data.map((mat, index) => {
               return (
-                <div
+                <Link
                   className="bg-[#2B2C2D] h-60 mt-12 rounded-2xl px-4"
                   key={index}
+                  to={`/details/${mat.id}`}
                 >
                   <ul className="flex justify-around mt-2.5 w-3/4">
                     <li
@@ -66,19 +68,26 @@ export default function Header() {
                       {mat.venue.split(",")[1]}
                     </li>
                   </ul>
-                  {mat.teams.map((team, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="flex justify-between mx-auto w-9/10 mt-6 text-xl"
-                      >
-                        <p>Team</p>
-                        <p>Score</p>
-                      </div>
-                    );
-                  })}
-                  <p className="w-14/15 mt-6 mx-auto text-xl">{mat.status}</p>
-                </div>
+                  <div className="flex justify-between">
+                    <div className="ml-4">
+                      {mat.teams.map((team) => {
+                        return (
+                          <p className="mt-7 text-xl font-semibold">{team}</p>
+                        );
+                      })}
+                    </div>
+                    <div className="ml-4">
+                      {mat.score.slice(0, 2).map((score) => {
+                        return (
+                          <p className="mt-7 text-xl font-semibold">{`${score.r}/${score.w} (${score.o})`}</p>
+                        );
+                      })}
+                    </div>
+                  </div>
+                  <p className="w-14/15 mt-8 mx-auto text-xl font-semibold">
+                    {mat.status}
+                  </p>
+                </Link>
               );
             })}
           </Slider>

@@ -18,6 +18,24 @@ export default function Header() {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1443, // Screen width <= 1024px
+        settings: {
+          slidesToShow: 3.2, // Show 2 slides
+          slidesToScroll: 2,
+          arrows: true,
+        },
+      },
+      {
+        breakpoint: 1280, // Screen width <= 1024px
+        settings: {
+          slidesToShow: 3.2, // Show 2 slides
+          slidesToScroll: 2,
+          arrows: false,
+        },
+      },
+    ],
   };
 
   console.log(data);
@@ -33,7 +51,7 @@ export default function Header() {
   if (data) {
     return (
       <header className="h-92 bg-[#1D1E1F]">
-        <div className="w-4/5 mx-auto h-3/4">
+        <div className="2xl:w-4/5 2xl:mx-auto xl:w-full xl:px-8 h-3/4">
           <Slider {...settings}>
             {data.map((mat, index) => {
               return (
@@ -70,16 +88,21 @@ export default function Header() {
                   </ul>
                   <div className="flex justify-between">
                     <div className="ml-4">
-                      {mat.teams.map((team) => {
+                      {mat.teams.map((team, index) => {
                         return (
-                          <p className="mt-7 text-xl font-semibold">{team}</p>
+                          <p className="mt-7 text-xl font-semibold" key={index}>
+                            {team}
+                          </p>
                         );
                       })}
                     </div>
                     <div className="ml-4">
-                      {mat.score.slice(0, 2).map((score) => {
+                      {mat.score.slice(0, 2).map((score, index) => {
                         return (
-                          <p className="mt-7 text-xl font-semibold">{`${score.r}/${score.w} (${score.o})`}</p>
+                          <p
+                            className="mt-7 text-xl font-semibold"
+                            key={index}
+                          >{`${score.r}/${score.w} (${score.o})`}</p>
                         );
                       })}
                     </div>

@@ -12,3 +12,17 @@ export async function fetchCurrentMatches() {
   const data = await response.json();
   return data.data;
 }
+
+export async function fetchMatch(matchId) {
+  const response = await fetch(
+    `https://api.cricapi.com/v1/match_info?apikey=${key}&offset=0&id=${matchId}`
+  );
+  if (!response.ok) {
+    const error = new Error("An error occured while fetching match details.");
+    error.code = response.status;
+    error.info = await response.json();
+    throw error;
+  }
+  const data = await response.json();
+  return data.data;
+}

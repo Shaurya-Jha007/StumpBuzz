@@ -38,8 +38,6 @@ export default function Header() {
     ],
   };
 
-  console.log(data);
-
   if (isPending) {
     return (
       <p className="flex items-center justify-center">
@@ -49,11 +47,20 @@ export default function Header() {
   }
 
   if (data) {
+    const sortedMatches = data.sort((a, b) => {
+      if (a.matchStarted && !a.matchEnded) return -1; // Live matches first
+      if (b.matchStarted && !b.matchEnded) return 1;
+      if (a.matchEnded) return 1; // Finished matches last
+      if (b.matchEnded) return -1;
+      return 0; // Order remains the same for others
+    });
+
+    console.log(sortedMatches);
     return (
       <header className="h-92 bg-[#1D1E1F]">
         <div className="2xl:w-4/5 2xl:mx-auto xl:w-full xl:px-8 h-3/4">
           <Slider {...settings}>
-            {data.map((mat, index) => {
+            {sortedMatches.map((mat, index) => {
               return (
                 <Link
                   className="bg-[#2B2C2D] h-60 mt-12 rounded-2xl px-4"
